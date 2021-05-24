@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_wavprocessor" default="compile.module.wavprocessor">
+  <dirname property="module.wavprocessor.basedir" file="${ant.file.module_wavprocessor}"/>
+  
+  <property name="module.jdk.home.wavprocessor" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.wavprocessor" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.wavprocessor" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.wavprocessor" value="-encoding UTF-8 -source 9 -target 9 ${compiler.args}"/>
+  
+  <property name="wavprocessor.output.dir" value="${module.wavprocessor.basedir}/out/production/WavProcessor"/>
+  <property name="wavprocessor.testoutput.dir" value="${module.wavprocessor.basedir}/out/test/WavProcessor"/>
+  
+  <path id="wavprocessor.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="wavprocessor.module.production.classpath">
+    <path refid="${module.jdk.classpath.wavprocessor}"/>
+    <path refid="library.io.projectreactor:reactor-core:3.1.7.release.classpath"/>
+    <path refid="library.com.github.shadskii:reactorfx:1.8.0.classpath"/>
+  </path>
+  
+  <path id="wavprocessor.runtime.production.module.classpath">
+    <pathelement location="${wavprocessor.output.dir}"/>
+    <path refid="library.io.projectreactor:reactor-core:3.1.7.release.classpath"/>
+    <path refid="library.com.github.shadskii:reactorfx:1.8.0.classpath"/>
+  </path>
+  
+  <path id="wavprocessor.module.classpath">
+    <path refid="${module.jdk.classpath.wavprocessor}"/>
+    <pathelement location="${wavprocessor.output.dir}"/>
+    <path refid="library.io.projectreactor:reactor-core:3.1.7.release.classpath"/>
+    <path refid="library.com.github.shadskii:reactorfx:1.8.0.classpath"/>
+  </path>
+  
+  <path id="wavprocessor.runtime.module.classpath">
+    <pathelement location="${wavprocessor.testoutput.dir}"/>
+    <pathelement location="${wavprocessor.output.dir}"/>
+    <path refid="library.io.projectreactor:reactor-core:3.1.7.release.classpath"/>
+    <path refid="library.com.github.shadskii:reactorfx:1.8.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.wavprocessor">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.wavprocessor">
+    <patternset refid="excluded.from.module.wavprocessor"/>
+  </patternset>
+  
+  <path id="wavprocessor.module.sourcepath">
+    <dirset dir="${module.wavprocessor.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.wavprocessor" depends="compile.module.wavprocessor.production,compile.module.wavprocessor.tests" description="Compile module WavProcessor"/>
+  
+  <target name="compile.module.wavprocessor.production" depends="register.custom.compilers" description="Compile module WavProcessor; production classes">
+    <mkdir dir="${wavprocessor.output.dir}"/>
+    <javac2 destdir="${wavprocessor.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.wavprocessor}/javac">
+      <compilerarg line="${compiler.args.wavprocessor}"/>
+      <bootclasspath refid="wavprocessor.module.bootclasspath"/>
+      <classpath refid="wavprocessor.module.production.classpath"/>
+      <src refid="wavprocessor.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.wavprocessor"/>
+    </javac2>
+    
+    <copy todir="${wavprocessor.output.dir}">
+      <fileset dir="${module.wavprocessor.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.wavprocessor.tests" depends="register.custom.compilers,compile.module.wavprocessor.production" description="compile module WavProcessor; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.wavprocessor" description="cleanup module">
+    <delete dir="${wavprocessor.output.dir}"/>
+    <delete dir="${wavprocessor.testoutput.dir}"/>
+  </target>
+</project>
