@@ -1,2 +1,2 @@
 # OtherProjects
-Projects from school 
+Collection of school projects
