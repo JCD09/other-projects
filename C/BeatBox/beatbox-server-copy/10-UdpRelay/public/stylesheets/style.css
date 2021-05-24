@@ -1,0 +1,56 @@
+
+#content {
+	border-style: double;
+	width: 550px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#controls{
+	display: -webkit-flex; /* Safari */
+	-webkit-flex-flow: row-reverse wrap; /* Safari 6.1+ */
+	display: flex;
+	flex-flow: column wrap;
+}
+
+#c-name {
+	align-self: center;
+	text-align: center;
+}
+
+#volume-controls{
+	display: flex;
+	flex-flow: column wrap;
+	flex-direction: row;
+	text-align: center;
+}
+
+#tempo-controls{
+	display: flex;
+	flex-flow: column wrap;
+	flex-direction: row;
+	text-align: center;
+}
+
+label {
+	color: rgb(87, 10, 10);
+	font-weight: bold;
+	display: block;
+	width: 250px;
+	float: center;
+}
+
+#beats{
+	display: flex;
+	justify-content: center
+}
+
+
+
+/* #messages {
+	height: 300px;
+	overflow: auto;
+	background-color: #eee;
+	margin-bottom: 1em;
+	margin-right: 10px;
+} */
